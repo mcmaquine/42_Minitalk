@@ -10,34 +10,63 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft/libft.h"
+#include "minitalk.h"
 
-char byte;
+t_data	g_data;
 
-void	my_handler(int sig)
+void	cprint(void);
+
+void	insert_bit_1(int sig)
 {
 	(void)sig;
-	if (ft_isprint(byte))
-	{
-		ft_printf("Char %c\n", byte);
-	}
-	byte++;
-	if (byte == 127)
-		raise(SIGKILL);
+	g_data.c = g_data.c << 1;
+	g_data.c++;
+	g_data.pos++;
+	ft_putchar_fd('1', 1);
+	cprint();
 }
 
-int	main()
+void	insert_bit_0(int sig)
 {
-	struct sigaction act;
+	(void)sig;
+	g_data.c = g_data.c << 1;
+	g_data.pos++;
+	ft_putchar_fd('0', 1);
+	cprint();
+}
 
-	byte = 32;
+void	cprint(void)
+{
+	if (g_data.pos == 8)
+	{
+		//ft_putchar_fd(g_data.c, 1);
+		g_data.c = 0;
+		g_data.pos = 0;
+	}
+}
+
+int	main(void)
+{
+	struct sigaction	act_0;
+	struct sigaction	act_1;
+
+	act_0.sa_handler = insert_bit_0;
+	act_0.sa_flags = 0;
+	act_1.sa_handler = insert_bit_1;
+	act_1.sa_flags = 0;
+	g_data.c = 0;
+	g_data.pos = 0;
+	if ((sigemptyset(&act_0.sa_mask) == -1)
+		|| (sigaction(SIGUSER1, &act_0, NULL) == -1)
+		|| (sigemptyset(&act_1.sa_mask) == -1)
+		|| (sigaction(SIGUSER2, &act_1, NULL) == -1))
+	{
+		ft_printf("Failed to install signal handler(s)");
+		return (1);
+	}
 	ft_printf("%d\n", getpid());
-	act.sa_handler = my_handler;
-	act.sa_flags = 0;
-	if ((sigemptyset(&act.sa_mask) == -1) ||
-		(sigaction(SIGUSER1, &act, NULL) == -1))
-		ft_printf("Failed to install SIGUSER1 signal handler");
-	while(1)
-	{}
-	return EXIT_SUCCESS;
+	while (1)
+	{
+	}
+	return (EXIT_SUCCESS);
 }
