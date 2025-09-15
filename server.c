@@ -12,10 +12,32 @@
 
 #include "./libft/libft.h"
 
-int	main(int argc, char **argv)
+char byte;
+
+void	my_handler(int sig)
 {
-	(void)argv;
-	if (argc == 3)
-		ft_printf("I'm the server with process %d\n", getpid());
+	(void)sig;
+	if (ft_isprint(byte))
+	{
+		ft_printf("Char %c\n", byte);
+	}
+	byte++;
+	if (byte == 127)
+		raise(SIGKILL);
+}
+
+int	main()
+{
+	struct sigaction act;
+
+	byte = 32;
+	ft_printf("%d\n", getpid());
+	act.sa_handler = my_handler;
+	act.sa_flags = 0;
+	if ((sigemptyset(&act.sa_mask) == -1) ||
+		(sigaction(SIGUSER1, &act, NULL) == -1))
+		ft_printf("Failed to install SIGUSER1 signal handler");
+	while(1)
+	{}
 	return EXIT_SUCCESS;
 }

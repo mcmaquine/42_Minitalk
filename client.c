@@ -14,8 +14,20 @@
 
 int	main(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
-	ft_printf("I am the client\n");
+	pid_t	pid;
+	int		loops;
+
+	pid  = 0;
+	loops = 95;
+	if (argc > 1)
+	{
+		pid = ft_atoi(argv[1]);
+		while (loops > 0)
+		{
+			kill(pid, SIGUSER1);
+			usleep(400);
+			loops--;
+		}
+	}
 	return (EXIT_SUCCESS);
 }
