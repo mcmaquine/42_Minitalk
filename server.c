@@ -22,8 +22,6 @@ void	insert_bit_1(int sig)
 	g_data.c = g_data.c << 1;
 	g_data.c++;
 	g_data.pos++;
-	ft_putchar_fd('1', 1);
-	cprint();
 }
 
 void	insert_bit_0(int sig)
@@ -31,18 +29,13 @@ void	insert_bit_0(int sig)
 	(void)sig;
 	g_data.c = g_data.c << 1;
 	g_data.pos++;
-	ft_putchar_fd('0', 1);
-	cprint();
 }
 
 void	cprint(void)
 {
-	if (g_data.pos == 8)
-	{
-		//ft_putchar_fd(g_data.c, 1);
-		g_data.c = 0;
-		g_data.pos = 0;
-	}
+	ft_printf("%c", g_data.c);
+	g_data.c = 0;
+	g_data.pos = 0;
 }
 
 int	main(void)
@@ -67,6 +60,8 @@ int	main(void)
 	ft_printf("%d\n", getpid());
 	while (1)
 	{
+		if (g_data.pos == 8)
+			cprint();
 	}
 	return (EXIT_SUCCESS);
 }

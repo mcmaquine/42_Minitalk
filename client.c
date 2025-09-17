@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include <stdio.h>
 
 /*
 Must correct the shift logic to start send from MSB to LSB
@@ -18,30 +19,27 @@ Must correct the shift logic to start send from MSB to LSB
 int	main(int argc, char **argv)
 {
 	pid_t	pid;
-	int		total_bits;
+	int		shift_bits;
 	int		i;
 
 	pid = 0;
-	total_bits = 0;
+	shift_bits = 7;
 	i = 0;
 	if (argc > 2)
 	{
 		pid = ft_atoi(argv[1]);
 		while (argv[2][i])
 		{
-			ft_printf("\t%c\n", argv[2][i]);
-			while (total_bits < 8)
+			while (shift_bits >= 0)
 			{
-				ft_printf("%d", argv[2][i] & 0x80);
-				if (argv[2][i] & 0x80)
+				if ((argv[2][i] >> shift_bits) & 0x1)
 					kill(pid, SIGUSER2);
 				else
 					kill(pid, SIGUSER1);
-				argv[2][i] = argv[2][i] >> 1;
-				total_bits++;
-				usleep(400);
+				shift_bits--;
+				usleep(1000);
 			}
-			total_bits = 0;
+			shift_bits = 7;
 			i++;
 		}
 	}

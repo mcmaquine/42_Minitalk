@@ -13,6 +13,13 @@
 #ifndef MINITALK_H
 # define MINITALK_H
 # include "./libft/libft.h"
+# include <signal.h>
+# ifndef SIGUSER1
+#  define SIGUSER1 10
+# endif
+# ifndef SIGUSER2
+#  define SIGUSER2 12
+# endif
 
 typedef struct s_data
 {
