@@ -14,54 +14,67 @@
 
 t_data	g_data;
 
-void	cprint(void);
+static int	new_action(void (*fact)(int), int sig);
 
-void	insert_bit_1(int sig)
+static void	insert_bit_1(int sig)
 {
 	(void)sig;
 	g_data.c = g_data.c << 1;
 	g_data.c++;
 	g_data.pos++;
+	if (g_data.pos == 8)
+	{
+		g_data.str = join(g_data.str, g_data.c);
+		g_data.pos = 0;
+		g_data.c = 0;
+	}
 }
 
-void	insert_bit_0(int sig)
+static void	insert_bit_0(int sig)
 {
 	(void)sig;
 	g_data.c = g_data.c << 1;
 	g_data.pos++;
+	if (g_data.pos == 8)
+	{
+		g_data.str = join(g_data.str, g_data.c);
+		if (g_data.c == 0)
+		{
+			ft_printf("%s", g_data.str);
+			free(g_data.str);
+			g_data.str = NULL;
+		}
+		g_data.c = 0;
+		g_data.pos = 0;
+	}
 }
 
-void	cprint(void)
+static int	new_action(void (*fact)(int), int sig)
 {
-	ft_printf("%c", g_data.c);
-	g_data.c = 0;
-	g_data.pos = 0;
+	struct sigaction	act;
+
+	act.sa_handler = fact;
+	act.sa_flags = 0;
+	if ((sigemptyset(&act.sa_mask) == -1)
+		|| (sigaction(sig, &act, NULL) == -1))
+		return (1);
+	return (0);
 }
 
 int	main(void)
 {
-	struct sigaction	act_0;
-	struct sigaction	act_1;
-
-	act_0.sa_handler = insert_bit_0;
-	act_0.sa_flags = 0;
-	act_1.sa_handler = insert_bit_1;
-	act_1.sa_flags = 0;
 	g_data.c = 0;
 	g_data.pos = 0;
-	if ((sigemptyset(&act_0.sa_mask) == -1)
-		|| (sigaction(SIGUSER1, &act_0, NULL) == -1)
-		|| (sigemptyset(&act_1.sa_mask) == -1)
-		|| (sigaction(SIGUSER2, &act_1, NULL) == -1))
+	if (new_action(insert_bit_0, SIGUSER1)
+		|| new_action(insert_bit_1, SIGUSER2))
 	{
 		ft_printf("Failed to install signal handler(s)");
 		return (1);
 	}
+	g_data.str = NULL;
 	ft_printf("%d\n", getpid());
 	while (1)
 	{
-		if (g_data.pos == 8)
-			cprint();
 	}
 	return (EXIT_SUCCESS);
 }

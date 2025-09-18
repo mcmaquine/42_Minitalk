@@ -13,35 +13,50 @@
 #include "minitalk.h"
 #include <stdio.h>
 
-/*
-Must correct the shift logic to start send from MSB to LSB
-*/
+static void	send_data(pid_t pid, char *s)
+{
+	int	shift_bits;
+
+	shift_bits = 7;
+	while (*s)
+	{
+		while (shift_bits >= 0)
+		{
+			if ((*s >> shift_bits) & 0x1)
+				kill(pid, SIGUSER2);
+			else
+				kill(pid, SIGUSER1);
+			shift_bits--;
+			usleep(100);
+		}
+		shift_bits = 7;
+		s++;
+	}
+}
+
+static void	send_zero(pid_t pid)
+{
+	int	shift_bits;
+
+	shift_bits = 7;
+	while (shift_bits >= 0)
+	{
+		kill(pid, SIGUSER1);
+		shift_bits--;
+		usleep(200);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	pid_t	pid;
-	int		shift_bits;
-	int		i;
 
 	pid = 0;
-	shift_bits = 7;
-	i = 0;
 	if (argc > 2)
 	{
 		pid = ft_atoi(argv[1]);
-		while (argv[2][i])
-		{
-			while (shift_bits >= 0)
-			{
-				if ((argv[2][i] >> shift_bits) & 0x1)
-					kill(pid, SIGUSER2);
-				else
-					kill(pid, SIGUSER1);
-				shift_bits--;
-				usleep(1000);
-			}
-			shift_bits = 7;
-			i++;
-		}
+		send_data(pid, argv[2]);
+		send_zero(pid);
 	}
 	return (EXIT_SUCCESS);
 }

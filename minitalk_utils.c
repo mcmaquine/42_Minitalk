@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   minitalk_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmaquine <mmaquine@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/15 19:38:22 by mmaquine          #+#    #+#             */
-/*   Updated: 2025/09/15 19:41:02 by mmaquine         ###   ########.fr       */
+/*   Created: 2025/09/18 14:44:09 by mmaquine          #+#    #+#             */
+/*   Updated: 2025/09/18 14:44:32 by mmaquine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
-# include "./libft/libft.h"
-# include <signal.h>
-# ifndef SIGUSER1
-#  define SIGUSER1 10
-# endif
-# ifndef SIGUSER2
-#  define SIGUSER2 12
-# endif
+#include "minitalk.h"
 
-typedef struct s_data
+char	*join(char *s1, char c)
 {
-	char	c;
-	int		pos;
-	char	*str;
-}	t_data;
+	char	s[1];
+	char	*joined;
 
-char	*join(char *s1, char c);
-#endif
+	s[0] = c;
+	if (!s1)
+		s1 = ft_calloc(1, 1);
+	joined = ft_strjoin(s1, s);
+	free(s1);
+	return (joined);
+}
