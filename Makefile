@@ -41,8 +41,8 @@ fclean: clean libclean
 	rm -f $(NAME) $(CLI)
 
 bonus: $(LIBFT) $(NAME)_bonus $(CLI)_bonus
-	mv $(NAME)_bonus $(NAME)
-	mv $(CLI)_bonus $(CLI)
+	@mv $(NAME)_bonus $(NAME)
+	@mv $(CLI)_bonus $(CLI)
 
 $(NAME)_bonus: $(OBJ_SERV_BONUS) $(LIBFT)
 	cc $(OBJ_SERV_BONUS) -L$(LIBFT_DIR) -lft -o $@

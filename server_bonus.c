@@ -10,16 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 t_data	g_data;
-
-static int	new_action(void (*fact)(int), int sig);
 
 static void	insert_bit_1(int sig, siginfo_t *info, void *context)
 {
 	(void)sig;
 	(void)context;
+	(void)info;
 	g_data.c = g_data.c << 1;
 	g_data.c++;
 	g_data.pos++;
@@ -44,23 +43,12 @@ static void	insert_bit_0(int sig, siginfo_t *info, void *context)
 		{
 			ft_printf("%s", g_data.str);
 			free(g_data.str);
+			kill((*info).si_pid, SIGUSER1);
 			g_data.str = NULL;
 		}
 		g_data.c = 0;
 		g_data.pos = 0;
 	}
-}
-
-static int	new_action(void (*fact)(int, siginfo_t *, void *), int sig)
-{
-	struct sigaction	act;
-
-	act.sa_sigaction = fact;
-	act.sa_flags = SA_SIGINFO;
-	if ((sigemptyset(&act.sa_mask) == -1)
-		|| (sigaction(sig, &act, NULL) == -1))
-		return (1);
-	return (0);
 }
 
 int	main(void)

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 #include <stdio.h>
 
 static void	send_data(pid_t pid, char *s)
@@ -57,6 +57,9 @@ int	main(int argc, char **argv)
 		pid = ft_atoi(argv[1]);
 		send_data(pid, argv[2]);
 		send_zero(pid);
+		while (1)
+		{
+		}
 	}
 	return (EXIT_SUCCESS);
 }

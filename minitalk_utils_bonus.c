@@ -24,3 +24,15 @@ char	*join(char *s1, char c)
 	free(s1);
 	return (joined);
 }
+
+int	new_action(void (*fact)(int, siginfo_t *, void *), int sig)
+{
+	struct sigaction	act;
+
+	act.sa_sigaction = fact;
+	act.sa_flags = SA_SIGINFO;
+	if ((sigemptyset(&act.sa_mask) == -1)
+		|| (sigaction(sig, &act, NULL) == -1))
+		return (1);
+	return (0);
+}

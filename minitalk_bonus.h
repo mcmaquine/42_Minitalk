@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#ifndef MINITALK_BONUS_H
+# define MINITALK_BONUS_H
 # include "./libft/libft.h"
 # include <signal.h>
 # ifndef SIGUSER1
@@ -29,4 +29,5 @@ typedef struct s_data
 }	t_data;
 
 char	*join(char *s1, char c);
+int		new_action(void (*fact)(int, siginfo_t *, void *), int sig);
 #endif
