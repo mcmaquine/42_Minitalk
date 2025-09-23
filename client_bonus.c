@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
-#include <stdio.h>
 
 static void	send_data(pid_t pid, char *s)
 {
