@@ -6,12 +6,11 @@
 /*   By: mmaquine <mmaquine@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:07:44 by mmaquine          #+#    #+#             */
-/*   Updated: 2025/09/05 16:18:18 by mmaquine         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:50:39 by mmaquine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <stdio.h>
 
 static void	send_data(pid_t pid, char *s)
 {
