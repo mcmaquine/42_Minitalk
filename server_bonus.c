@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   server_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmaquine <mmaquine@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 16:04:26 by mmaquine          #+#    #+#             */
-/*   Updated: 2025/09/05 17:30:40 by mmaquine         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:42:37 by mmaquine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	insert_bit_0(int sig, siginfo_t *info, void *context)
 		{
 			ft_printf("%s", g_data.str);
 			free(g_data.str);
-			kill((*info).si_pid, SIGUSER1);
+			kill((*info).si_pid, SIGUSR1);
 			g_data.str = NULL;
 		}
 		g_data.c = 0;
@@ -55,8 +55,8 @@ int	main(void)
 {
 	g_data.c = 0;
 	g_data.pos = 0;
-	if (new_action(insert_bit_0, SIGUSER1)
-		|| new_action(insert_bit_1, SIGUSER2))
+	if (new_action(insert_bit_0, SIGUSR1)
+		|| new_action(insert_bit_1, SIGUSR2))
 	{
 		ft_printf("Failed to install signal handler(s)");
 		return (1);

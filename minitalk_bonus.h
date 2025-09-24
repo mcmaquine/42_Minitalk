@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   minitalk_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmaquine <mmaquine@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:38:22 by mmaquine          #+#    #+#             */
-/*   Updated: 2025/09/15 19:41:02 by mmaquine         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:42:48 by mmaquine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define MINITALK_BONUS_H
 # include "./libft/libft.h"
 # include <signal.h>
-# ifndef SIGUSER1
-#  define SIGUSER1 10
+# ifndef SIGUSR1
+#  define SIGUSR1 10
 # endif
-# ifndef SIGUSER2
-#  define SIGUSER2 12
+# ifndef SIGUSR2
+#  define SIGUSR2 12
 # endif
 
 typedef struct s_data
