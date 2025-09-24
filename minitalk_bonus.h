@@ -6,7 +6,7 @@
 /*   By: mmaquine <mmaquine@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:38:22 by mmaquine          #+#    #+#             */
-/*   Updated: 2025/09/24 12:42:48 by mmaquine         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:36:46 by mmaquine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ typedef struct s_data
 }	t_data;
 
 char	*join(char *s1, char c);
-int		new_action(void (*fact)(int, siginfo_t *, void *), int sig);
+int		new_action(void (*fact)(int), int sig);
+int		new_action_w_info(void (*fact)(int, siginfo_t *, void *), int sig);
 #endif
