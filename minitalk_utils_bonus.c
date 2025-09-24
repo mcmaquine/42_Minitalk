@@ -1,31 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk_utils.c                                   :+:      :+:    :+:   */
+/*   minitalk_utils_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmaquine <mmaquine@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/18 14:44:09 by mmaquine          #+#    #+#             */
-/*   Updated: 2025/09/18 14:44:32 by mmaquine         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:08:45 by mmaquine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 char	*join(char *s1, char c)
 {
-	char	s[1];
+	char	*s;
 	char	*joined;
 
-	s[0] = c;
+	if (!c)
+		s = ft_calloc(1, 1);
+	else
+	{
+		s = ft_calloc(2, 1);
+		s[0] = c;
+	}
 	if (!s1)
 		s1 = ft_calloc(1, 1);
 	joined = ft_strjoin(s1, s);
 	free(s1);
+	free(s);
 	return (joined);
 }
 
-int	new_action(void (*fact)(int, siginfo_t *, void *), int sig)
+int	new_action(void (*fact)(int), int sig)
+{
+	struct sigaction	act;
+
+	act.sa_handler = fact;
+	act.sa_flags = 0;
+	if ((sigemptyset(&act.sa_mask) == -1)
+		|| (sigaction(sig, &act, NULL) == -1))
+		return (1);
+	return (0);
+}
+
+int	new_action_w_info(void (*fact)(int, siginfo_t *, void *), int sig)
 {
 	struct sigaction	act;
 

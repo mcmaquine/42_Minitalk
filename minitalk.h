@@ -6,7 +6,7 @@
 /*   By: mmaquine <mmaquine@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 19:38:22 by mmaquine          #+#    #+#             */
-/*   Updated: 2025/09/15 19:41:02 by mmaquine         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:05:46 by mmaquine         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 # define MINITALK_H
 # include "./libft/libft.h"
 # include <signal.h>
-# ifndef SIGUSER1
-#  define SIGUSER1 10
+# ifndef SIGUSR1
+#  define SIGUSR1 10
 # endif
-# ifndef SIGUSER2
-#  define SIGUSER2 12
+# ifndef SIGUSR2
+#  define SIGUSR2 12
 # endif
 
 typedef struct s_data
@@ -29,4 +29,6 @@ typedef struct s_data
 }	t_data;
 
 char	*join(char *s1, char c);
+int		new_action(void (*fact)(int), int sig);
+int		new_action_w_info(void (*fact)(int, siginfo_t *, void *), int sig);
 #endif
